@@ -13,7 +13,11 @@ public class TacoPickup : MonoBehaviour
     public GameObject salsaPrefab;
     public GameObject picklePrefab;
 
-    private GameObject currentIngredient;
+   // private GameObject currentIngredient;
+    private IngredientItem currentItem;
+
+    private GameObject heldObject;
+    private GrillStation currentGrill;
 
 
 
@@ -22,48 +26,118 @@ public class TacoPickup : MonoBehaviour
         var kb = Keyboard.current;
         if (kb == null) return;
 
-        if (kb.eKey.wasPressedThisFrame && currentIngredient != null)
+        if (kb.eKey.wasPressedThisFrame)
         {
-            PickupItem();
+            if (currentItem != null)
+            {
+                PickupItem();
+            }
+            else if (heldObject != null && currentGrill != null)
+            {
+                PlaceOnGrill();
+            }
         }
     }
 
     void OnTriggerEnter(Collider other)
     {
-        currentIngredient = other.gameObject;
+        IngredientItem item = other.GetComponent<IngredientItem>();
+
+        if (item != null)
+        {
+            currentItem = item;
+
+            if (heldObject != null)
+            {
+                
+                PickupUIManager.Instance.Show(
+                    "Replace with " + currentItem.itemName + " (E)"
+                );
+            }
+            else
+            {
+               
+                PickupUIManager.Instance.Show(
+                    "Pick up " + currentItem.itemName + " (E)"
+                );
+            }
+        }
+
+        GrillStation grill = other.GetComponent<GrillStation>();
+
+        if (grill != null && heldObject != null)
+        {
+            currentGrill = grill;
+            PickupUIManager.Instance.Show("Place on Grill (E)");
+        }
     }
 
     void OnTriggerExit(Collider other)
     {
-        if (other.gameObject == currentIngredient)
-            currentIngredient = null;
+        IngredientItem item = other.GetComponent<IngredientItem>();
+
+        if (item != null && item == currentItem)
+        {
+            currentItem = null;
+            PickupUIManager.Instance.Hide();
+        }
+
+        GrillStation grill = other.GetComponent<GrillStation>();
+
+        if (grill != null && grill == currentGrill)
+        {
+            currentGrill = null;
+            PickupUIManager.Instance.Hide();
+        }
+    }
+
+    void PlaceOnGrill()
+    {
+        if (heldObject == null || currentGrill == null)
+            return;
+
+        heldObject.transform.parent = null;
+
+        heldObject.transform.position = currentGrill.grillPoint.position;
+        heldObject.transform.rotation = currentGrill.grillPoint.rotation;
+
+        heldObject = null;
+
+        Debug.Log("Placed on grill");
     }
 
     void PickupItem()
     {
+        if (currentItem == null) return;
+
         GameObject prefabToSpawn = null;
 
-        string name = currentIngredient.name.ToLower();
-
-        if (name.Contains("tortilla"))
-            prefabToSpawn = tortillaPrefab;
-
-        else if (name.Contains("bean"))
-            prefabToSpawn = beanPrefab;
-
-        else if (name.Contains("cheese"))
-            prefabToSpawn = cheesePrefab;
-
-        else if (name.Contains("salsa"))
-            prefabToSpawn = salsaPrefab;
-
-        else if (name.Contains("pickle"))
-            prefabToSpawn = picklePrefab;
+        switch (currentItem.itemName)
+        {
+            case "tortilla": prefabToSpawn = tortillaPrefab; break;
+            case "bean": prefabToSpawn = beanPrefab; break;
+            case "cheese": prefabToSpawn = cheesePrefab; break;
+            case "salsa": prefabToSpawn = salsaPrefab; break;
+            case "pickles": prefabToSpawn = picklePrefab; break;
+            default:
+                Debug.LogWarning("No prefab assigned for " + currentItem.itemName);
+                return;
+        }
 
         if (prefabToSpawn != null)
         {
-            Instantiate(prefabToSpawn, handPoint.position, handPoint.rotation, handPoint);
-            Debug.Log($"Picked up {currentIngredient.name}");
+            
+            if (heldObject != null)
+                Destroy(heldObject);
+
+            
+            heldObject = Instantiate(prefabToSpawn, handPoint.position, handPoint.rotation, handPoint);
+
+            
+            currentItem = null;
+
+           
+            PickupUIManager.Instance.Hide();
         }
     }
 }
