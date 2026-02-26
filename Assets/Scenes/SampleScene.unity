@@ -1524,6 +1524,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TacoPickup
   handPoint: {fileID: 1229918634}
+  handModel: {fileID: 771170910}
+  animator: {fileID: 771170909}
   tortillaPrefab: {fileID: 4665904154229000433, guid: 82bd86d35e99af240bc3c3276fccb86c, type: 3}
   beanPrefab: {fileID: 1004492185556708121, guid: d28e2698c371f2842bb3cf670c8942ff, type: 3}
   cheesePrefab: {fileID: 7045212719980862260, guid: 6a6370da01fbe2f4c95d76c13dee188f, type: 3}
