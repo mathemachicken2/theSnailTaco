@@ -20,6 +20,8 @@ public class SimplePlayerController : MonoBehaviour
 
     private Vector2 moveInput;
 
+ 
+
     void Awake()
     {
         controller = GetComponent<CharacterController>();
