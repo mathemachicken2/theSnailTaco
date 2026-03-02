@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class TacoPickup : MonoBehaviour
 {
@@ -25,18 +26,29 @@ public class TacoPickup : MonoBehaviour
     private Quaternion handStartRotation;
     private Quaternion handModelStartRotation;
 
+    private float cookTimer = 0f;
+    private float cookDuration = 6f;
+    private bool isCooking = false;
+
+    public Image cookProgressBar;
+    public Image cookProgressBackground;
+
     void Start()
     {
         handStartRotation = handPoint.localRotation;
         handModelStartRotation = handModel.localRotation;
+
+        cookProgressBackground.gameObject.SetActive(false);
     }
 
     void Update()
     {
         var kb = Keyboard.current;
         var mouse = Mouse.current;
-        if (kb == null) return;
 
+        if (kb == null || mouse == null) return;
+
+        // ---------- E KEY INTERACTIONS ----------
         if (kb.eKey.wasPressedThisFrame)
         {
             if (currentItem != null)
@@ -49,15 +61,33 @@ public class TacoPickup : MonoBehaviour
             }
         }
 
-        if (mouse.leftButton.wasPressedThisFrame && currentGrill != null && heldObject == null)
+        // ---------- COOKING SYSTEM ----------
+        if (mouse.leftButton.isPressed && currentGrill != null && heldObject == null)
         {
-            StartCooking();
-        }
+            if (!isCooking)
+            {
+                StartCooking();
+            }
 
-        // Stop cooking when mouse released
-        if (mouse.leftButton.wasReleasedThisFrame)
+            if (isCooking)
+            {
+                cookTimer += Time.deltaTime;
+
+                cookProgressBar.fillAmount = cookTimer / cookDuration;
+
+                if (cookTimer >= cookDuration)
+                {
+                    currentGrill.FinishCooking();
+                    StopCooking();
+                }
+            }
+        }
+        else
         {
-            StopCooking();
+            if (isCooking)
+            {
+                StopCooking();
+            }
         }
     }
 
@@ -162,19 +192,42 @@ public class TacoPickup : MonoBehaviour
 
     void StartCooking()
     {
+        if (currentGrill == null || heldObject != null)
+            return;
+
+        if (currentGrill.GetIngredientCount() < 3)
+        {
+            PickupUIManager.Instance.Show("Needs more ingredients!");
+            return;
+        }
+        isCooking = true;
+        cookTimer = 0f;
+
         animator.SetBool("Cook", true);
         animator.SetBool("Idle", false);
         animator.SetBool("PickUp", false);
+
         handModel.localRotation = handModelStartRotation * Quaternion.Euler(-12, 180, -60);
+
+        cookProgressBackground.gameObject.SetActive(true);
 
         Debug.Log("Cooking...");
     }
 
     void StopCooking()
     {
+        isCooking = false;
+        cookTimer = 0f;
+
         animator.SetBool("Cook", false);
         animator.SetBool("Idle", true);
+
         handModel.localRotation = handModelStartRotation;
+
+        cookProgressBar.fillAmount = 0f; // reset UI
+        cookProgressBackground.gameObject.SetActive(false);
+
+        Debug.Log("Cooking stopped");
     }
 
     void PlaceOnGrill()
@@ -186,6 +239,8 @@ public class TacoPickup : MonoBehaviour
         heldObject.transform.parent = null;
         heldObject.transform.position = currentGrill.grillPoint.position;
         heldObject.transform.rotation = currentGrill.grillPoint.rotation;
+
+        currentGrill.AddIngredient(heldObject);
 
         // Trigger same pick up animation
         if (animator != null)
