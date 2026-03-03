@@ -7,38 +7,35 @@ public class TacoPickup : MonoBehaviour
     [Header("Hand")]
     public Transform handPoint;
     public Transform handModel;
-
     public Animator animator;
 
-    [Header("Prefabs")]
+    [Header("Ingredient Prefabs")]
     public GameObject tortillaPrefab;
     public GameObject beanPrefab;
     public GameObject cheesePrefab;
     public GameObject salsaPrefab;
     public GameObject picklePrefab;
 
-    // private GameObject currentIngredient;
-    private IngredientItem currentItem;
+    [Header("UI")]
+    public Image cookProgressBar;
+    public GameObject cookProgressBackground;
 
+    private IngredientItem currentItem;
     private GameObject heldObject;
     private GrillStation currentGrill;
 
-    private Quaternion handStartRotation;
     private Quaternion handModelStartRotation;
 
-    private float cookTimer = 0f;
-    private float cookDuration = 6f;
-    private bool isCooking = false;
+    private float cookTimer;
+    private const float cookDuration = 6f;
+    private bool isCooking;
 
-    public Image cookProgressBar;
-    public Image cookProgressBackground;
+    private PlateStation currentPlate;
 
     void Start()
     {
-        handStartRotation = handPoint.localRotation;
         handModelStartRotation = handModel.localRotation;
-
-        cookProgressBackground.gameObject.SetActive(false);
+        cookProgressBackground.SetActive(false);
     }
 
     void Update()
@@ -48,31 +45,121 @@ public class TacoPickup : MonoBehaviour
 
         if (kb == null || mouse == null) return;
 
-        // ---------- E KEY INTERACTIONS ----------
-        if (kb.eKey.wasPressedThisFrame)
+        HandleEKey(kb);
+        HandleCooking(mouse);
+
+        UpdateInteractionUI();
+    }
+
+    // =========================
+    // INPUT
+    // =========================
+
+    bool IsHoldingTaco()
+    {
+        if (heldObject == null) return false;
+
+        return heldObject.CompareTag("Taco");
+    }
+
+    void UpdateInteractionUI()
+    {
+        if (isCooking)
+            return;
+
+       
+        if (IsHoldingTaco())
         {
-            if (currentItem != null)
+            if (currentPlate != null)
             {
-                PickupItem();
+                PickupUIManager.Instance.Show("Serve at counter (E)");
             }
-            else if (heldObject != null && currentGrill != null)
+            else
             {
-                PlaceOnGrill();
+                PickupUIManager.Instance.Show("Serve at counter (E)");
             }
+
+            return;
         }
 
-        // ---------- COOKING SYSTEM ----------
-        if (mouse.leftButton.isPressed && currentGrill != null && heldObject == null)
+        // PRIORITY 2: Grill
+        if (currentGrill != null)
+        {
+            UpdateGrillUI();
+            return;
+        }
+
+        // PRIORITY 3: Ingredient pickup
+        if (currentItem != null)
+        {
+            if (heldObject != null)
+                PickupUIManager.Instance.Show("Replace with " + currentItem.itemName + " (E)");
+            else
+                PickupUIManager.Instance.Show("Pick up " + currentItem.itemName + " (E)");
+
+            return;
+        }
+
+        PickupUIManager.Instance.Hide();
+    }
+    void HandleEKey(Keyboard kb)
+    {
+        if (!kb.eKey.wasPressedThisFrame) return;
+
+        // Serve taco first
+        if (currentPlate != null && IsHoldingTaco())
+        {
+            ServeTaco();
+            return;
+        }
+
+        // Taco pickup
+        if (currentGrill != null && currentGrill.HasCookedTaco())
+        {
+            PickupCookedTaco();
+            return;
+        }
+
+        // Ingredient pickup
+        if (currentItem != null)
+        {
+            PickupItem();
+            return;
+        }
+
+        // Place ingredient on grill (NOT taco)
+        if (heldObject != null && currentGrill != null && !IsHoldingTaco())
+        {
+            PlaceOnGrill();
+            return;
+        }
+    }
+
+    void ServeTaco()
+    {
+        if (heldObject == null || currentPlate == null)
+            return;
+
+        currentPlate.ServeTaco(heldObject);
+
+        heldObject = null;
+
+        Debug.Log("Served taco");
+    }
+
+    void HandleCooking(Mouse mouse)
+    {
+        if (mouse.leftButton.isPressed &&
+            currentGrill != null &&
+            heldObject == null &&
+            !currentGrill.HasCookedTaco())
         {
             if (!isCooking)
-            {
                 StartCooking();
-            }
 
             if (isCooking)
             {
                 cookTimer += Time.deltaTime;
-
                 cookProgressBar.fillAmount = cookTimer / cookDuration;
 
                 if (cookTimer >= cookDuration)
@@ -85,121 +172,124 @@ public class TacoPickup : MonoBehaviour
         else
         {
             if (isCooking)
-            {
                 StopCooking();
-            }
         }
     }
+
+    // =========================
+    // TRIGGERS
+    // =========================
 
     void OnTriggerEnter(Collider other)
     {
         IngredientItem item = other.GetComponent<IngredientItem>();
-
         if (item != null)
         {
             currentItem = item;
-
-            if (heldObject != null)
-            {
-
-                PickupUIManager.Instance.Show(
-                    "Replace with " + currentItem.itemName + " (E)"
-                );
-            }
-            else
-            {
-
-                PickupUIManager.Instance.Show(
-                    "Pick up " + currentItem.itemName + " (E)"
-                );
-            }
-            return; // Stop here so grill doesn't overwrite UI
+            return;
         }
 
         GrillStation grill = other.GetComponent<GrillStation>();
-
         if (grill != null)
         {
             currentGrill = grill;
-
-            if (heldObject != null)
-                PickupUIManager.Instance.Show("Place on Grill (E)");
-            else
-                PickupUIManager.Instance.Show("Cook (Mouse Click)");
         }
+
+        PlateStation plate = other.GetComponent<PlateStation>();
+        if (plate != null)
+        {
+            currentPlate = plate;
+        }
+
     }
 
     void OnTriggerExit(Collider other)
     {
-        IngredientItem item = other.GetComponent<IngredientItem>();
-
-        if (item != null && item == currentItem)
-        {
+        if (other.GetComponent<IngredientItem>() == currentItem)
             currentItem = null;
-            PickupUIManager.Instance.Hide();
-        }
 
-        GrillStation grill = other.GetComponent<GrillStation>();
-
-        if (grill != null && grill == currentGrill)
-        {
+        if (other.GetComponent<GrillStation>() == currentGrill)
             currentGrill = null;
-            PickupUIManager.Instance.Hide();
+
+        if (other.GetComponent<PlateStation>() == currentPlate)
+        {
+            currentPlate = null;
         }
+
+        PickupUIManager.Instance.Hide();
     }
 
+    // =========================
+    // ITEM LOGIC
+    // =========================
 
     void PickupItem()
     {
-        if (currentItem == null) return;
+        GameObject prefab = GetPrefabFromName(currentItem.itemName);
+        if (prefab == null) return;
 
-        GameObject prefabToSpawn = null;
+        if (heldObject != null)
+            Destroy(heldObject);
 
-        switch (currentItem.itemName)
-        {
-            case "tortilla": prefabToSpawn = tortillaPrefab; break;
-            case "bean": prefabToSpawn = beanPrefab; break;
-            case "cheese": prefabToSpawn = cheesePrefab; break;
-            case "salsa": prefabToSpawn = salsaPrefab; break;
-            case "pickles": prefabToSpawn = picklePrefab; break;
-            default:
-                Debug.LogWarning("No prefab assigned for " + currentItem.itemName);
-                return;
-        }
+        heldObject = Instantiate(prefab, handPoint.position, handPoint.rotation, handPoint);
 
-        if (prefabToSpawn != null)
-        {
-            // Destroy old held item
-            if (heldObject != null)
-                Destroy(heldObject);
+        animator.SetBool("PickUp", true);
+        animator.SetBool("Idle", false);
+        animator.SetBool("Cook", false);
 
-            // Spawn new item in hand
-            heldObject = Instantiate(prefabToSpawn, handPoint.position, handPoint.rotation, handPoint);
-
-            // Trigger pick up animation (same for pickup & place)
-            if (animator != null)
-                animator.SetBool("PickUp",true);
-            animator.SetBool("Idle", false);
-            animator.SetBool("Cook", false);
-            Debug.Log("Picked up " + currentItem.itemName);
-
-            currentItem = null;
-            PickupUIManager.Instance.Hide();
-
-        }
         handModel.localRotation = handModelStartRotation * Quaternion.Euler(0, 0, 90);
+
+        currentItem = null;
+        PickupUIManager.Instance.Hide();
     }
+
+    void PlaceOnGrill()
+    {
+        if (heldObject == null || currentGrill == null)
+            return;
+
+        heldObject.transform.parent = null;
+        heldObject.transform.position = currentGrill.grillPoint.position;
+        heldObject.transform.rotation = currentGrill.grillPoint.rotation;
+
+        currentGrill.AddIngredient(heldObject);
+
+        heldObject = null;
+
+        animator.SetBool("Idle", true);
+        animator.SetBool("PickUp", false);
+
+        handModel.localRotation = handModelStartRotation;
+    }
+
+    void PickupCookedTaco()
+    {
+        GameObject taco = currentGrill.GetCookedTaco();
+        if (taco == null) return;
+
+        if (heldObject != null)
+            Destroy(heldObject);
+
+        heldObject = taco;
+        taco.transform.SetParent(handPoint);
+        taco.transform.localPosition = Vector3.zero;
+        taco.transform.localRotation = Quaternion.identity;
+
+        currentGrill.ClearCookedTaco();
+    }
+
+    // =========================
+    // COOKING
+    // =========================
 
     void StartCooking()
     {
-        if (currentGrill == null || heldObject != null)
-            return;
-
         if (currentGrill.GetIngredientCount() < 3)
         {
             PickupUIManager.Instance.Show("Needs more ingredients!");
             return;
         }
+
         isCooking = true;
         cookTimer = 0f;
 
@@ -209,9 +299,7 @@ public class TacoPickup : MonoBehaviour
 
         handModel.localRotation = handModelStartRotation * Quaternion.Euler(-12, 180, -60);
 
-        cookProgressBackground.gameObject.SetActive(true);
-
-        Debug.Log("Cooking...");
+        cookProgressBackground.SetActive(true);
     }
 
     void StopCooking()
@@ -224,32 +312,58 @@ public class TacoPickup : MonoBehaviour
 
         handModel.localRotation = handModelStartRotation;
 
-        cookProgressBar.fillAmount = 0f; // reset UI
-        cookProgressBackground.gameObject.SetActive(false);
-
-        Debug.Log("Cooking stopped");
+        cookProgressBar.fillAmount = 0f;
+        cookProgressBackground.SetActive(false);
     }
 
-    void PlaceOnGrill()
+    // =========================
+    // UI
+    // =========================
+
+    void UpdateGrillUI()
     {
-        if (heldObject == null || currentGrill == null)
+        if (currentGrill == null)
+        {
+            PickupUIManager.Instance.Hide();
             return;
+        }
 
-        // Move item to grill
-        heldObject.transform.parent = null;
-        heldObject.transform.position = currentGrill.grillPoint.position;
-        heldObject.transform.rotation = currentGrill.grillPoint.rotation;
+        if (currentGrill.HasCookedTaco())
+        {
+            PickupUIManager.Instance.Show("Pick up taco (E)");
+            return;
+        }
 
-        currentGrill.AddIngredient(heldObject);
+        if (heldObject != null && !IsHoldingTaco())
+        {
+            PickupUIManager.Instance.Show("Place on Grill (E)");
+            return;
+        }
 
-        // Trigger same pick up animation
-        if (animator != null)
-            animator.SetBool("Idle",true);
-        animator.SetBool("PickUp", false);
-        handModel.localRotation = handModelStartRotation * Quaternion.Euler(0, 0, 90);
+        if (currentGrill.GetIngredientCount() >= 3)
+        {
+            PickupUIManager.Instance.Show("Cook (Mouse Click)");
+        }
+        else
+        {
+            PickupUIManager.Instance.Show("Needs more ingredients");
+        }
+    }
 
-        heldObject = null;
+    // =========================
+    // HELPER
+    // =========================
 
-        Debug.Log("Placed on grill");
+    GameObject GetPrefabFromName(string name)
+    {
+        switch (name)
+        {
+            case "tortilla": return tortillaPrefab;
+            case "bean": return beanPrefab;
+            case "cheese": return cheesePrefab;
+            case "salsa": return salsaPrefab;
+            case "pickles": return picklePrefab;
+            default: return null;
+        }
     }
 }
