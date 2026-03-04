@@ -1,5 +1,7 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.LowLevel;
 using UnityEngine.UI;
 
 public class TacoPickup : MonoBehaviour
@@ -32,6 +34,21 @@ public class TacoPickup : MonoBehaviour
 
     private PlateStation currentPlate;
 
+    public CounterInteraction counter;
+
+    public GameObject customerPanel;
+    public TMP_Text dialogueText;
+
+    public MonoBehaviour playerMovement;
+    private bool isInDialogue = false;
+
+    public GameObject buttonPrefab;
+    public Transform buttonContainer;
+
+
+
+
+
     void Start()
     {
         handModelStartRotation = handModel.localRotation;
@@ -40,6 +57,10 @@ public class TacoPickup : MonoBehaviour
 
     void Update()
     {
+
+        if (isInDialogue)
+            return;
+
         var kb = Keyboard.current;
         var mouse = Mouse.current;
 
@@ -55,6 +76,81 @@ public class TacoPickup : MonoBehaviour
     // INPUT
     // =========================
 
+    void OpenCustomerPanel()
+    {
+        if (counter == null || counter.manager.CurrentCustomer == null)
+            return;
+
+        Customer currentCustomer = counter.manager.CurrentCustomer;
+
+        // Show dialogue properly (text + buttons)
+        ShowDialogue(currentCustomer);
+
+        // Freeze player
+        if (playerMovement != null)
+            playerMovement.enabled = false;
+
+        // Unlock mouse
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
+        customerPanel.SetActive(true);
+        PickupUIManager.Instance.Hide();
+
+        isInDialogue = true;
+
+        Debug.Log("Opened customer order UI");
+    }
+
+    void ShowDialogue(Customer customer)
+    {
+        DialogueEntry entry = customer.GetCurrentDialogue();
+        if (entry == null) return;
+
+        dialogueText.text = entry.text;
+
+        // Clear old buttons
+        // Create new buttons
+        for (int i = 0; i < entry.options.Length; i++)
+        {
+            int index = i; // important for button callbacks
+
+            GameObject buttonObj = Instantiate(buttonPrefab, buttonContainer.transform);
+            buttonObj.transform.localPosition = new Vector3(0, -50 * i, 0);
+            Debug.Log("Created button for option: " + entry.options[index]);
+
+            TMP_Text btnText = buttonObj.GetComponentInChildren<TMP_Text>();
+            btnText.text = entry.options[index];
+
+            Button btn = buttonObj.GetComponent<Button>();
+
+            btn.onClick.AddListener(() =>
+            {
+                Debug.Log("Button clicked! Index: " + index);
+                dialogueText.text = entry.responses[index];
+
+                Destroy(buttonObj);
+
+
+
+            });
+
+        }
+    }
+    public void CloseCustomerPanel()
+    {
+        customerPanel.SetActive(false);
+
+        // Re-enable movement
+        if (playerMovement != null)
+            playerMovement.enabled = true;
+
+        // Lock mouse again
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
+        isInDialogue = false;
+    }
     bool IsHoldingTaco()
     {
         if (heldObject == null) return false;
@@ -79,6 +175,11 @@ public class TacoPickup : MonoBehaviour
                 PickupUIManager.Instance.Show("Serve at counter (E)");
             }
 
+            return;
+        }
+        if (counter != null && counter.CanInteract())
+        {
+            PickupUIManager.Instance.Show("Serve customer (E)");
             return;
         }
 
@@ -131,6 +232,12 @@ public class TacoPickup : MonoBehaviour
         if (heldObject != null && currentGrill != null && !IsHoldingTaco())
         {
             PlaceOnGrill();
+            return;
+        }
+        if (counter != null && counter.CanInteract())
+        {
+            OpenCustomerPanel();
+
             return;
         }
     }
@@ -200,6 +307,8 @@ public class TacoPickup : MonoBehaviour
         {
             currentPlate = plate;
         }
+
+      
 
     }
 
