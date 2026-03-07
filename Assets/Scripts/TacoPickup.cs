@@ -63,6 +63,7 @@ public class TacoPickup : MonoBehaviour
 
     [SerializeField] Image fadePanel;
     [SerializeField] float fadeSpeed = 2f;
+    [SerializeField] Transform customerZoomPoint;
 
     void Start()
     {
@@ -154,6 +155,7 @@ public class TacoPickup : MonoBehaviour
     }
     void OpenCustomerPanel()
     {
+        dialogueCameraTarget = customerZoomPoint;
         isZooming = true;
 
         if (counter == null || counter.manager.CurrentCustomer == null)
@@ -179,6 +181,7 @@ public class TacoPickup : MonoBehaviour
         PickupUIManager.Instance.Hide();
 
         isInDialogue = true;
+      
 
         Debug.Log("Opened customer order UI");
     }

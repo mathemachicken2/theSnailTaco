@@ -7,10 +7,12 @@ public class CustomerManager : MonoBehaviour
 
     public Customer CurrentCustomer { get; private set; }
 
+
     void Start()
     {
         SpawnNextCustomer();
     }
+
 
     public void SpawnNextCustomer()
     {
