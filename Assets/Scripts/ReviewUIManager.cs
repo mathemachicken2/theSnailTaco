@@ -9,6 +9,8 @@ public class ReviewUIManager : MonoBehaviour
     private bool isOpen = false;
     private Vector2 closedPos;
     private Vector2 openPos;
+    public CustomerManager customerManager; // assign in inspector
+    private bool phoneOpen = false;
 
     void Start()
     {
@@ -36,6 +38,12 @@ public class ReviewUIManager : MonoBehaviour
             {
                 // Close panel
                 isOpen = false;
+
+                // Spawn the next customer when the panel is closed
+                if (customerManager != null)
+                {
+                    customerManager.SpawnNextCustomer();
+                }
             }
         }
 

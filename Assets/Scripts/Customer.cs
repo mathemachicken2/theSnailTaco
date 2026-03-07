@@ -5,6 +5,7 @@ public class Customer : MonoBehaviour
     [Header("Movement")]
     public Transform stopPoint;       // Where customer stops at counter
     private bool hasArrived = false;
+    //public Transform zoomPoint;
 
     [Header("Dialogue")]
     public DialogueEntry[] dialogues; // Assign unique dialogues per customer
