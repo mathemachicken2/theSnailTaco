@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -46,20 +47,48 @@ public class TacoPickup : MonoBehaviour
     public Transform buttonContainer;
 
 
+    [SerializeField] Transform dialogueCameraTarget;
+    [SerializeField] float cameraMoveSpeed = 5f;
 
+    Camera playerCamera;
+    bool isZooming = false;
 
+    [SerializeField] Transform plateCameraTarget;
+
+    [SerializeField] GameObject tacoHalfPrefab;
+    [SerializeField] GameObject tacoAlmostGonePrefab;
+    [SerializeField] Transform grillPoint;
+
+    [SerializeField] float eatDuration = 5f;
+
+    [SerializeField] Image fadePanel;
+    [SerializeField] float fadeSpeed = 2f;
 
     void Start()
     {
         handModelStartRotation = handModel.localRotation;
         cookProgressBackground.SetActive(false);
+        customerPanel.SetActive(false);
+        playerCamera = Camera.main;
     }
 
     void Update()
     {
 
-        if (isInDialogue)
-            return;
+        if (isZooming && dialogueCameraTarget != null)
+        {
+            playerCamera.transform.position = Vector3.Lerp(
+                playerCamera.transform.position,
+                dialogueCameraTarget.position,
+                Time.deltaTime * cameraMoveSpeed
+            );
+
+            playerCamera.transform.rotation = Quaternion.Lerp(
+                playerCamera.transform.rotation,
+                dialogueCameraTarget.rotation,
+                Time.deltaTime * cameraMoveSpeed
+            );
+        }
 
         var kb = Keyboard.current;
         var mouse = Mouse.current;
@@ -70,21 +99,72 @@ public class TacoPickup : MonoBehaviour
         HandleCooking(mouse);
 
         UpdateInteractionUI();
+
+        if (isInDialogue)
+        {
+            if (kb.escapeKey.wasPressedThisFrame)
+            {
+                CloseDialogue();
+            }
+
+            return; // stop gameplay logic
+        }
+        if (isInDialogue)
+            return;
     }
 
     // =========================
     // INPUT
     // =========================
 
+    void CloseDialogue()
+    {
+        isZooming = false;
+        customerPanel.SetActive(false);
+        for (int i = 0; i < buttonContainer.childCount; i++)
+        {
+            Destroy(buttonContainer.GetChild(i).gameObject);
+        }
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
+        if (playerMovement != null)
+            playerMovement.enabled = true;
+
+        isInDialogue = false;
+    }
+
+    IEnumerator FadeToBlack(float duration)
+    {
+        float timer = 0;
+
+        Color c = fadePanel.color;
+
+        while (timer < 1)
+        {
+            timer += Time.deltaTime * fadeSpeed;
+            c.a = timer;
+            fadePanel.color = c;
+
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(duration);
+    }
     void OpenCustomerPanel()
     {
+        isZooming = true;
+
         if (counter == null || counter.manager.CurrentCustomer == null)
             return;
 
         Customer currentCustomer = counter.manager.CurrentCustomer;
 
-        // Show dialogue properly (text + buttons)
-        ShowDialogue(currentCustomer);
+       
+        
+
+        
 
         // Freeze player
         if (playerMovement != null)
@@ -95,6 +175,7 @@ public class TacoPickup : MonoBehaviour
         Cursor.visible = true;
 
         customerPanel.SetActive(true);
+        ShowDialogue(currentCustomer);
         PickupUIManager.Instance.Hide();
 
         isInDialogue = true;
@@ -116,7 +197,10 @@ public class TacoPickup : MonoBehaviour
             int index = i; // important for button callbacks
 
             GameObject buttonObj = Instantiate(buttonPrefab, buttonContainer.transform);
-            buttonObj.transform.localPosition = new Vector3(0, -50 * i, 0);
+            buttonObj.transform.SetAsFirstSibling();
+            float startY = 0f;
+            float spacing = 30f;
+            buttonObj.transform.localPosition = new Vector3(0, startY - spacing * i, 0);
             Debug.Log("Created button for option: " + entry.options[index]);
 
             TMP_Text btnText = buttonObj.GetComponentInChildren<TMP_Text>();
@@ -129,8 +213,10 @@ public class TacoPickup : MonoBehaviour
                 Debug.Log("Button clicked! Index: " + index);
                 dialogueText.text = entry.responses[index];
 
-                Destroy(buttonObj);
-
+                foreach (Transform child in buttonContainer.transform)
+                {
+                    Destroy(child.gameObject);
+                }
 
 
             });
@@ -247,11 +333,79 @@ public class TacoPickup : MonoBehaviour
         if (heldObject == null || currentPlate == null)
             return;
 
-        currentPlate.ServeTaco(heldObject);
+        playerMovement.enabled = false;
+
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
+        GameObject taco = heldObject;
+
+        currentPlate.ServeTaco(taco);
 
         heldObject = null;
 
+        StartCoroutine(EatTacoSequence(taco));
+
         Debug.Log("Served taco");
+    }
+
+    IEnumerator FadeFromBlack()
+    {
+        float timer = 1;
+        Color c = fadePanel.color;
+
+        while (timer > 0)
+        {
+            timer -= Time.deltaTime * fadeSpeed;
+            c.a = timer;
+            fadePanel.color = c;
+
+            yield return null;
+        }
+    }
+    IEnumerator EatTacoSequence(GameObject taco)
+    {
+        // Move camera to plate
+        dialogueCameraTarget = plateCameraTarget;
+        isZooming = true;
+
+        yield return new WaitForSeconds(eatDuration / 3f);
+
+        // Half eaten
+        Vector3 pos = taco.transform.position;
+        Quaternion rot = taco.transform.rotation;
+
+        Destroy(taco);
+        GameObject half = Instantiate(tacoHalfPrefab, grillPoint.position, Quaternion.Euler(-90, 0, 0));
+
+        yield return new WaitForSeconds(eatDuration / 3f);
+
+        // Almost gone
+        Destroy(half);
+        GameObject almost = Instantiate(tacoAlmostGonePrefab, grillPoint.position, Quaternion.Euler(-90, 0, 0));
+
+        yield return new WaitForSeconds(eatDuration / 3f);
+
+        // Finished
+        Destroy(almost);
+
+        // Customer leaves
+        if (counter.manager.CurrentCustomer != null)
+        {
+            Destroy(counter.manager.CurrentCustomer.gameObject);
+        }
+        yield return StartCoroutine(FadeToBlack(4f));
+        yield return StartCoroutine(FadeFromBlack());
+        if (playerMovement != null)
+            playerMovement.enabled = true;
+
+        // Lock mouse again
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
+        isZooming = false;
+
+
     }
 
     void HandleCooking(Mouse mouse)
