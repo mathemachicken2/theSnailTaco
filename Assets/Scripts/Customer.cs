@@ -8,12 +8,10 @@ public class Customer : MonoBehaviour
     //public Transform zoomPoint;
 
     [Header("Dialogue")]
-    public DialogueEntry[] dialogues; // Assign unique dialogues per customer
+    public DialogueEntry[] dialogues; 
     private int currentDialogue = 0;
 
-    // ------------------------
-    // Movement / Counter Logic
-    // ------------------------
+ 
     public void MoveToCounter()
     {
         transform.position = stopPoint.position;
