@@ -65,12 +65,20 @@ public class TacoPickup : MonoBehaviour
     [SerializeField] float fadeSpeed = 2f;
     [SerializeField] Transform customerZoomPoint;
 
+    //Camerafix
+   Vector3 originalLocalPosition;
+    Quaternion originalLocalRotation;
+
     void Start()
     {
         handModelStartRotation = handModel.localRotation;
         cookProgressBackground.SetActive(false);
         customerPanel.SetActive(false);
         playerCamera = Camera.main;
+
+
+        originalLocalPosition = playerCamera.transform.localPosition;
+        originalLocalRotation = playerCamera.transform.localRotation;
     }
 
     void Update()
@@ -134,6 +142,9 @@ public class TacoPickup : MonoBehaviour
             playerMovement.enabled = true;
 
         isInDialogue = false;
+
+        playerCamera.transform.localPosition = originalLocalPosition;
+        playerCamera.transform.localRotation = originalLocalRotation;
     }
 
     IEnumerator FadeToBlack(float duration)
@@ -379,13 +390,13 @@ public class TacoPickup : MonoBehaviour
         Quaternion rot = taco.transform.rotation;
 
         Destroy(taco);
-        GameObject half = Instantiate(tacoHalfPrefab, grillPoint.position, Quaternion.Euler(-90, 0, 0));
+        GameObject half = Instantiate(tacoHalfPrefab, grillPoint.position + new Vector3(0, .5f, 0), Quaternion.Euler(-90, 0, 0));
 
         yield return new WaitForSeconds(eatDuration / 3f);
 
         // Almost gone
         Destroy(half);
-        GameObject almost = Instantiate(tacoAlmostGonePrefab, grillPoint.position, Quaternion.Euler(-90, 0, 0));
+        GameObject almost = Instantiate(tacoAlmostGonePrefab, grillPoint.position + new Vector3(0, .5f, 0), Quaternion.Euler(-90, 0, 0));
 
         yield return new WaitForSeconds(eatDuration / 3f);
 
@@ -407,6 +418,10 @@ public class TacoPickup : MonoBehaviour
         Cursor.visible = false;
 
         isZooming = false;
+        
+
+        playerCamera.transform.position = originalLocalPosition;
+        playerCamera.transform.rotation = originalLocalRotation;
 
 
     }
