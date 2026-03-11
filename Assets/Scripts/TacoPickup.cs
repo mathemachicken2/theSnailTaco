@@ -69,6 +69,15 @@ public class TacoPickup : MonoBehaviour
    Vector3 originalLocalPosition;
     Quaternion originalLocalRotation;
 
+    [SerializeField] GameObject bloodPrefab;
+    [SerializeField] GameObject bloodPrefab1;
+    [SerializeField] Transform bloodSpawnPoint;
+    [SerializeField] Image sirenOverlay;
+    [SerializeField] float sirenDuration = 4f;
+
+  
+
+
     void Start()
     {
         handModelStartRotation = handModel.localRotation;
@@ -147,7 +156,7 @@ public class TacoPickup : MonoBehaviour
         playerCamera.transform.localRotation = originalLocalRotation;
     }
 
-    IEnumerator FadeToBlack(float duration)
+    IEnumerator FadeToBlackWHenFired(float duration)
     {
         float timer = 0;
 
@@ -161,9 +170,32 @@ public class TacoPickup : MonoBehaviour
 
             yield return null;
         }
+       
+        yield return new WaitForSeconds(duration);
+        DeathTextManager.Instance.ShowArrestedMessages();
+    }
+
+    IEnumerator FadeToBlackWhenEating(float duration)
+    {
+        float timer = 0;
+
+        Color c = fadePanel.color;
+        Customer currentCustomer = counter.manager.CurrentCustomer;
+
+        while (timer < 1)
+        {
+            timer += Time.deltaTime * fadeSpeed;
+            c.a = timer;
+            fadePanel.color = c;
+            DeathTextManager.Instance.ShowEatingMessage(currentCustomer.eatingMessage);
+
+            yield return null;
+        }
 
         yield return new WaitForSeconds(duration);
+        
     }
+
     void OpenCustomerPanel()
     {
         dialogueCameraTarget = customerZoomPoint;
@@ -197,6 +229,12 @@ public class TacoPickup : MonoBehaviour
         Debug.Log("Opened customer order UI");
     }
 
+    void KillPlayer()
+    {
+        // Spawn blood at player's position
+        Instantiate(bloodPrefab, transform.position + Vector3.up * 1f, Quaternion.identity);
+        
+    }
     void ShowDialogue(Customer customer)
     {
         DialogueEntry entry = customer.GetCurrentDialogue();
@@ -226,6 +264,12 @@ public class TacoPickup : MonoBehaviour
             {
                 Debug.Log("Button clicked! Index: " + index);
                 dialogueText.text = entry.responses[index];
+                if (entry.options[index] == "Kill customer")
+                {
+                    StartCoroutine(KillCustomerSequence());
+                    KillPlayer();
+                    //DeathTextManager.Instance.ShowArrestedMessages();
+                }
 
                 foreach (Transform child in buttonContainer.transform)
                 {
@@ -236,6 +280,47 @@ public class TacoPickup : MonoBehaviour
             });
 
         }
+    }
+
+    IEnumerator KillCustomerSequence()
+    {
+        // Spawn blood
+        Instantiate(bloodPrefab, bloodSpawnPoint.position, Quaternion.identity);
+        Instantiate(bloodPrefab1, bloodSpawnPoint.position, Quaternion.identity);
+        GameObject target = GameObject.FindGameObjectWithTag("Killable");
+
+        if (target != null)
+        {
+            Destroy(target);
+        }
+
+        // Start police sirens
+        yield return StartCoroutine(PoliceSirenEffect());
+
+        // Fade to black
+        yield return StartCoroutine(FadeToBlackWHenFired(3f));
+    }
+
+    IEnumerator PoliceSirenEffect()
+    {
+        float timer = 0;
+
+        sirenOverlay.gameObject.SetActive(true);
+        Color redSiren = new Color(1f, 0f, 0f, 0.2f);
+        Color blueSiren = new Color(0f, 0f, 1f, 0.2f);
+
+        while (timer < sirenDuration)
+        {
+            sirenOverlay.color = redSiren;
+            yield return new WaitForSeconds(0.2f);
+
+            sirenOverlay.color = blueSiren;
+            yield return new WaitForSeconds(0.2f);
+
+            timer += 0.4f;
+        }
+
+        sirenOverlay.gameObject.SetActive(false);
     }
     public void CloseCustomerPanel()
     {
@@ -377,6 +462,9 @@ public class TacoPickup : MonoBehaviour
             yield return null;
         }
     }
+
+
+
     IEnumerator EatTacoSequence(GameObject taco)
     {
         // Move camera to plate
@@ -408,7 +496,7 @@ public class TacoPickup : MonoBehaviour
         {
             Destroy(counter.manager.CurrentCustomer.gameObject);
         }
-        yield return StartCoroutine(FadeToBlack(4f));
+        yield return StartCoroutine(FadeToBlackWhenEating(6f));
         yield return StartCoroutine(FadeFromBlack());
         if (playerMovement != null)
             playerMovement.enabled = true;
@@ -418,10 +506,10 @@ public class TacoPickup : MonoBehaviour
         Cursor.visible = false;
 
         isZooming = false;
-        
 
-        playerCamera.transform.position = originalLocalPosition;
-        playerCamera.transform.rotation = originalLocalRotation;
+
+        playerCamera.transform.localPosition = originalLocalPosition;
+        playerCamera.transform.localRotation = originalLocalRotation;
 
 
     }
@@ -578,7 +666,7 @@ public class TacoPickup : MonoBehaviour
         animator.SetBool("Idle", false);
         animator.SetBool("PickUp", false);
 
-        handModel.localRotation = handModelStartRotation * Quaternion.Euler(-12, 180, -60);
+        handModel.localRotation = handModelStartRotation * Quaternion.Euler(0, 180f, -60f);
 
         cookProgressBackground.SetActive(true);
     }

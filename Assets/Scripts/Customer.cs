@@ -11,6 +11,8 @@ public class Customer : MonoBehaviour
     public DialogueEntry[] dialogues; 
     private int currentDialogue = 0;
 
+    public string eatingMessage;
+
  
     public void MoveToCounter()
     {

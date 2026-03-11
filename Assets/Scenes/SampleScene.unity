@@ -304,6 +304,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Customer
   stopPoint: {fileID: 0}
   dialogues: []
+  eatingMessage: 
 --- !u!1 &145897001 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 7eb500f3dc692f043ac88ab57b6b688a, type: 3}
@@ -389,6 +390,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Customer
   stopPoint: {fileID: 0}
   dialogues: []
+  eatingMessage: 
 --- !u!1 &152532897 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 1585970bd09c02f4cacb585f2d9da3d1, type: 3}
@@ -449,6 +451,82 @@ MonoBehaviour:
     responses:
     - Perfect, thank you. I'll wait here.
     - Uhm okay
+  eatingMessage: 'The customer finishes the taco and storms out, in tears.  '
+--- !u!1 &191529579
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 191529580}
+  - component: {fileID: 191529582}
+  - component: {fileID: 191529581}
+  m_Layer: 5
+  m_Name: SirenImage
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &191529580
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 191529579}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 100, y: 100, z: 100}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 410859513}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: -1100, y: -564}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &191529581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 191529579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &191529582
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 191529579}
+  m_CullTransparentMesh: 1
 --- !u!1001 &228324237
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -844,6 +922,59 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1843656317}
   m_SourcePrefab: {fileID: 100100000, guid: 1585970bd09c02f4cacb585f2d9da3d1, type: 3}
+--- !u!1 &311710510
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 311710511}
+  - component: {fileID: 311710512}
+  m_Layer: 0
+  m_Name: BoxCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &311710511
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 311710510}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1755824873}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &311710512
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 311710510}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 3.6351848, y: 1, z: 1.084484}
+  m_Center: {x: 0.15407237, y: 0, z: 0.04224161}
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -1412,6 +1543,10 @@ RectTransform:
   - {fileID: 285148267}
   - {fileID: 771105202}
   - {fileID: 533354404}
+  - {fileID: 191529580}
+  - {fileID: 1167035170}
+  - {fileID: 2146279208}
+  - {fileID: 1553306515}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1541,6 +1676,7 @@ GameObject:
   m_Component:
   - component: {fileID: 428936113}
   - component: {fileID: 428936112}
+  - component: {fileID: 428936114}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1576,6 +1712,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &428936114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 428936111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3982b5324f183ea49a87e4446be61376, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DeathTextManager
+  firedText: {fileID: 1167035171}
+  arrestedText: {fileID: 1553306516}
+  deathText: {fileID: 2146279209}
+  eatingText: {fileID: 1167035171}
+  checkReviewText: {fileID: 1553306516}
 --- !u!1 &433432909
 GameObject:
   m_ObjectHideFlags: 0
@@ -1670,6 +1823,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Customer
   stopPoint: {fileID: 0}
   dialogues: []
+  eatingMessage: 
 --- !u!1001 &454646448
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2076,12 +2230,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3508217b2f0afc049a0031c4a32df53e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  moveSpeed: 20
+  moveSpeed: 10
   jumpHeight: 1.5
   gravity: -9.81
   playerCamera: {fileID: 330585546}
-  mouseSensitivity: 100
-  maxLookAngle: 90
+  mouseSensitivity: 60
+  maxLookAngle: 45
 --- !u!143 &658034095
 CharacterController:
   m_ObjectHideFlags: 0
@@ -2162,8 +2316,8 @@ MonoBehaviour:
   handModel: {fileID: 771170910}
   animator: {fileID: 771170909}
   tortillaPrefab: {fileID: 4665904154229000433, guid: 82bd86d35e99af240bc3c3276fccb86c, type: 3}
-  beanPrefab: {fileID: 1004492185556708121, guid: d28e2698c371f2842bb3cf670c8942ff, type: 3}
-  cheesePrefab: {fileID: 7045212719980862260, guid: 6a6370da01fbe2f4c95d76c13dee188f, type: 3}
+  beanPrefab: {fileID: 1441140055770866384, guid: 77e87edfd0db20142abe8fbf23125f73, type: 3}
+  cheesePrefab: {fileID: 1441140055770866384, guid: 6548c21646fea594a96d5c8edbdeb079, type: 3}
   salsaPrefab: {fileID: 1441140055770866384, guid: de2181781f64f2a45830ae9a581daa82, type: 3}
   picklePrefab: {fileID: 8637742384487099975, guid: 47b6c8ba55ea1d442953927c0ef692a7, type: 3}
   cookProgressBar: {fileID: 433432911}
@@ -2184,6 +2338,11 @@ MonoBehaviour:
   fadePanel: {fileID: 771105203}
   fadeSpeed: 2
   customerZoomPoint: {fileID: 765586118}
+  bloodPrefab: {fileID: 8533489875423786924, guid: a628b43dcfdd89c4aa5e1ba13cd10a5e, type: 3}
+  bloodPrefab1: {fileID: 8533489875423786924, guid: da8320cade1f4c842bebab360785285c, type: 3}
+  bloodSpawnPoint: {fileID: 1511107210}
+  sirenOverlay: {fileID: 191529581}
+  sirenDuration: 4
 --- !u!1 &707542706
 GameObject:
   m_ObjectHideFlags: 0
@@ -2662,11 +2821,14 @@ MonoBehaviour:
   dialogues:
   - text: Are you even open?
     options:
-    - Kill costumer
+    - Kill customer
     - Yes, how can I help you?
     responses:
     - It's a bit dirty here. Give me one pickle taco.
     - It's a bit dirty here. Give me one pickle taco.
+  eatingMessage: The customer starts drooling all over the counter. You tell him
+    to leave. He proceeds to do a backflip, which results in him tripping and breaking
+    his neck. Since he's just a pickle you go on with your day.
 --- !u!1 &877080243
 GameObject:
   m_ObjectHideFlags: 0
@@ -2813,6 +2975,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Customer
   stopPoint: {fileID: 0}
   dialogues: []
+  eatingMessage: 
 --- !u!1 &967131824
 GameObject:
   m_ObjectHideFlags: 0
@@ -2993,6 +3156,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 1585970bd09c02f4cacb585f2d9da3d1, type: 3}
       propertyPath: m_Name
       value: aliamManwithFace (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 1585970bd09c02f4cacb585f2d9da3d1, type: 3}
+      propertyPath: m_TagString
+      value: Killable
       objectReference: {fileID: 0}
     - target: {fileID: 4083501151425157549, guid: 1585970bd09c02f4cacb585f2d9da3d1, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3248,6 +3415,143 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1051662903}
   m_CullTransparentMesh: 1
+--- !u!1 &1167035169
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1167035170}
+  - component: {fileID: 1167035172}
+  - component: {fileID: 1167035171}
+  m_Layer: 5
+  m_Name: YoureFiredText
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &1167035170
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1167035169}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 410859513}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 146}
+  m_SizeDelta: {x: 200, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1167035171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1167035169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: New Text
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 7c0d121752ed99a4d870bff7fcf80411, type: 2}
+  m_sharedMaterial: {fileID: 8546240453212140776, guid: 7c0d121752ed99a4d870bff7fcf80411, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 44
+  m_fontSizeBase: 44
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 256
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_characterHorizontalScale: 1
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_TextWrappingMode: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 0
+  m_ActiveFontFeatures: 6e72656b
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_EmojiFallbackSupport: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: -257.08368, y: 0, z: -257.15674, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &1167035172
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1167035169}
+  m_CullTransparentMesh: 1
 --- !u!1 &1229918633
 GameObject:
   m_ObjectHideFlags: 0
@@ -3273,7 +3577,7 @@ Transform:
   m_GameObject: {fileID: 1229918633}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.487, y: -0.689, z: 2.022}
+  m_LocalPosition: {x: 1.3, y: 0, z: 1.967}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3628,6 +3932,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Customer
   stopPoint: {fileID: 0}
   dialogues: []
+  eatingMessage: 
 --- !u!1 &1393267084
 GameObject:
   m_ObjectHideFlags: 0
@@ -3766,7 +4071,7 @@ Transform:
   m_GameObject: {fileID: 1424138032}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.033, y: 0.069, z: 0}
+  m_LocalPosition: {x: -0.033, y: 0.039, z: 0}
   m_LocalScale: {x: 0.83589, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4078,6 +4383,143 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IngredientItem
   itemName: pickles
+--- !u!1 &1553306514
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1553306515}
+  - component: {fileID: 1553306517}
+  - component: {fileID: 1553306516}
+  m_Layer: 5
+  m_Name: YoureArrestedText
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &1553306515
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1553306514}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 410859513}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -145}
+  m_SizeDelta: {x: 200, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1553306516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1553306514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: New Text
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 7c0d121752ed99a4d870bff7fcf80411, type: 2}
+  m_sharedMaterial: {fileID: 8546240453212140776, guid: 7c0d121752ed99a4d870bff7fcf80411, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 44
+  m_fontSizeBase: 44
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 256
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_characterHorizontalScale: 1
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_TextWrappingMode: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 0
+  m_ActiveFontFeatures: 6e72656b
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_EmojiFallbackSupport: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: -257.08368, y: 0, z: -257.15674, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &1553306517
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1553306514}
+  m_CullTransparentMesh: 1
 --- !u!1 &1559140438 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -8391222552659086748, guid: 1585970bd09c02f4cacb585f2d9da3d1, type: 3}
@@ -4097,6 +4539,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Customer
   stopPoint: {fileID: 0}
   dialogues: []
+  eatingMessage: 
 --- !u!1 &1568525224 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8416272007918961125, guid: 1585970bd09c02f4cacb585f2d9da3d1, type: 3}
@@ -4116,6 +4559,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Customer
   stopPoint: {fileID: 0}
   dialogues: []
+  eatingMessage: 
 --- !u!1 &1578558736
 GameObject:
   m_ObjectHideFlags: 0
@@ -4248,6 +4692,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Customer
   stopPoint: {fileID: 0}
   dialogues: []
+  eatingMessage: 
 --- !u!1 &1642877652
 GameObject:
   m_ObjectHideFlags: 0
@@ -4387,10 +4832,11 @@ MonoBehaviour:
   dialogues:
   - text: Hey I'll have one taco with extra everything.
     options:
-    - Kill costumer
+    - Kill customer
     - Okay but please leave a good review.
     responses:
     - We'll see.
+  eatingMessage: 
 --- !u!95 &1689714327
 Animator:
   serializedVersion: 7
@@ -4506,6 +4952,32 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b3bb8962245ccda428580b3c9714007f, type: 3}
+--- !u!1 &1722426389 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 97a7ae8cff97b644b9693b52c288dc12, type: 3}
+  m_PrefabInstance: {fileID: 2053870864}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &1722426393
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1722426389}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.023176195, y: 0.01330753, z: 0.027947886}
+  m_Center: {x: -0.0006911854, y: -4.4968767e-15, z: -0.003973943}
 --- !u!1 &1727601578
 GameObject:
   m_ObjectHideFlags: 0
@@ -4585,11 +5057,13 @@ MonoBehaviour:
   dialogues:
   - text: I FUCKING LOVE PICKLES !!!! GIVE ME ONE MILLION PICKLE TACOS
     options:
-    - You can have one.
+    - Kill customer
     - Please give us a good review.
     responses:
-    - Make it NOW or else I'm leaving a bad review.
+    - HELP !!!!!!!! PPLLEEASE
     - Then make it NOW
+  eatingMessage: 'The customer starts petting you like a dog and whispers that you''re
+    a good pickle. You feel confused. '
 --- !u!1 &1755824870
 GameObject:
   m_ObjectHideFlags: 0
@@ -4641,8 +5115,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 1, z: 1.1876175}
+  m_Center: {x: 0, y: 0, z: 0.0938087}
 --- !u!4 &1755824873
 Transform:
   m_ObjectHideFlags: 0
@@ -4657,6 +5131,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1424138033}
+  - {fileID: 311710511}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1796506556
@@ -5011,6 +5486,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Customer
   stopPoint: {fileID: 0}
   dialogues: []
+  eatingMessage: 
 --- !u!1 &1858395339
 GameObject:
   m_ObjectHideFlags: 0
@@ -5216,6 +5692,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: aliamManwithFace (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 1585970bd09c02f4cacb585f2d9da3d1, type: 3}
+      propertyPath: m_TagString
+      value: Killable
+      objectReference: {fileID: 0}
     - target: {fileID: 4083501151425157549, guid: 1585970bd09c02f4cacb585f2d9da3d1, type: 3}
       propertyPath: m_LocalPosition.y
       value: 3.94
@@ -5284,8 +5764,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 5.5974073, y: 3.1419253, z: 5.384572}
-  m_Center: {x: 2.2987037, y: 1.0709627, z: 2.192286}
+  m_Size: {x: 5.5974073, y: 3.1419253, z: 6.3569164}
+  m_Center: {x: 2.2987037, y: 1.0709627, z: 1.7061138}
 --- !u!4 &1865723797
 Transform:
   m_ObjectHideFlags: 0
@@ -5381,6 +5861,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 1585970bd09c02f4cacb585f2d9da3d1, type: 3}
       propertyPath: m_Name
       value: aliamManwithFace (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 1585970bd09c02f4cacb585f2d9da3d1, type: 3}
+      propertyPath: m_TagString
+      value: Killable
       objectReference: {fileID: 0}
     - target: {fileID: 4083501151425157549, guid: 1585970bd09c02f4cacb585f2d9da3d1, type: 3}
       propertyPath: m_LocalPosition.y
@@ -5495,6 +5979,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Customer
   stopPoint: {fileID: 0}
   dialogues: []
+  eatingMessage: 
 --- !u!1 &1991456781 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7036213049465896255, guid: 1585970bd09c02f4cacb585f2d9da3d1, type: 3}
@@ -5514,6 +5999,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Customer
   stopPoint: {fileID: 0}
   dialogues: []
+  eatingMessage: 
 --- !u!1 &2014696166 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 1585970bd09c02f4cacb585f2d9da3d1, type: 3}
@@ -5567,6 +6053,8 @@ MonoBehaviour:
     responses:
     - Give me extra pickles.
     - Fuck you. If I didn't have this pickle body I'd shove you into that blender.
+  eatingMessage: The customer storms out. You can tell he's ripping ass by the green
+    stains dripping on the floor.
 --- !u!1001 &2053870864
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5634,7 +6122,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 97a7ae8cff97b644b9693b52c288dc12, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1722426393}
   m_SourcePrefab: {fileID: 100100000, guid: 97a7ae8cff97b644b9693b52c288dc12, type: 3}
 --- !u!1 &2132717141 stripped
 GameObject:
@@ -5655,6 +6146,144 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Customer
   stopPoint: {fileID: 0}
   dialogues: []
+  eatingMessage: 
+--- !u!1 &2146279207
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2146279208}
+  - component: {fileID: 2146279210}
+  - component: {fileID: 2146279209}
+  m_Layer: 5
+  m_Name: YouDiedText
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &2146279208
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2146279207}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 410859513}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -155}
+  m_SizeDelta: {x: 200, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2146279209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2146279207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: New Text
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 7c0d121752ed99a4d870bff7fcf80411, type: 2}
+  m_sharedMaterial: {fileID: 8546240453212140776, guid: 7c0d121752ed99a4d870bff7fcf80411, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 44
+  m_fontSizeBase: 44
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 256
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_characterHorizontalScale: 1
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_TextWrappingMode: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 0
+  m_ActiveFontFeatures: 6e72656b
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_EmojiFallbackSupport: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: -257.08368, y: 0, z: -257.15674, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &2146279210
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2146279207}
+  m_CullTransparentMesh: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
