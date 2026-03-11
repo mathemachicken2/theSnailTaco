@@ -10,7 +10,7 @@ public class ReviewUIManager : MonoBehaviour
     private Vector2 closedPos;
     private Vector2 openPos;
     public CustomerManager customerManager; // assign in inspector
-    private bool phoneOpen = false;
+   // private bool phoneOpen = false;
 
     void Start()
     {
