@@ -10,7 +10,10 @@ public class ReviewUIManager : MonoBehaviour
     private Vector2 closedPos;
     private Vector2 openPos;
     public CustomerManager customerManager; // assign in inspector
-   // private bool phoneOpen = false;
+                                            // private bool phoneOpen = false;
+    public GameObject[] reviewImages;
+    private int currentReviewIndex = 0;
+    private int reviewsUnlocked = 0;
 
     void Start()
     {
@@ -19,6 +22,25 @@ public class ReviewUIManager : MonoBehaviour
         openPos = new Vector2(closedPos.x, 0);
 
         reviewsPanel.gameObject.SetActive(false);
+        foreach (GameObject img in reviewImages)
+        {
+            img.SetActive(false);
+        }
+    }
+
+    public void AddReview()
+    {
+        reviewsUnlocked++;
+    }
+    void ShowCurrentReview()
+    {
+        foreach (GameObject img in reviewImages)
+            img.SetActive(false);
+
+        int index = reviewsUnlocked - 1;
+
+        if (index >= 0 && index < reviewImages.Length)
+            reviewImages[index].SetActive(true);
     }
 
     void Update()
@@ -30,19 +52,21 @@ public class ReviewUIManager : MonoBehaviour
         {
             if (!isOpen)
             {
-                // Open panel
+                if (reviewsUnlocked == 0)
+                    return;
+
                 reviewsPanel.gameObject.SetActive(true);
                 isOpen = true;
+                ShowCurrentReview();
             }
             else
             {
-                // Close panel
                 isOpen = false;
 
-                // Spawn the next customer when the panel is closed
-                if (customerManager != null)
+                if (customerManager != null && customerManager.customerServed)
                 {
                     customerManager.SpawnNextCustomer();
+                    customerManager.customerServed = false;
                 }
             }
         }

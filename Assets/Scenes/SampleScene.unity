@@ -452,81 +452,6 @@ MonoBehaviour:
     - Perfect, thank you. I'll wait here.
     - Uhm okay
   eatingMessage: 'The customer finishes the taco and storms out, in tears.  '
---- !u!1 &191529579
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 191529580}
-  - component: {fileID: 191529582}
-  - component: {fileID: 191529581}
-  m_Layer: 5
-  m_Name: SirenImage
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &191529580
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 191529579}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 100, y: 100, z: 100}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 410859513}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -1100, y: -564}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &191529581
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 191529579}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 0
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &191529582
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 191529579}
-  m_CullTransparentMesh: 1
 --- !u!1001 &228324237
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1543,10 +1468,10 @@ RectTransform:
   - {fileID: 285148267}
   - {fileID: 771105202}
   - {fileID: 533354404}
-  - {fileID: 191529580}
   - {fileID: 1167035170}
   - {fileID: 2146279208}
   - {fileID: 1553306515}
+  - {fileID: 1220723258}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -2341,8 +2266,9 @@ MonoBehaviour:
   bloodPrefab: {fileID: 8533489875423786924, guid: a628b43dcfdd89c4aa5e1ba13cd10a5e, type: 3}
   bloodPrefab1: {fileID: 8533489875423786924, guid: da8320cade1f4c842bebab360785285c, type: 3}
   bloodSpawnPoint: {fileID: 1511107210}
-  sirenOverlay: {fileID: 191529581}
+  sirenOverlay: {fileID: 1220723259}
   sirenDuration: 4
+  reviewUIManager: {fileID: 1031182688}
 --- !u!1 &707542706
 GameObject:
   m_ObjectHideFlags: 0
@@ -2824,7 +2750,7 @@ MonoBehaviour:
     - Kill customer
     - Yes, how can I help you?
     responses:
-    - It's a bit dirty here. Give me one pickle taco.
+    - HHHHEEEELLLLPPPP!!!!!!
     - It's a bit dirty here. Give me one pickle taco.
   eatingMessage: The customer starts drooling all over the counter. You tell him
     to leave. He proceeds to do a backflip, which results in him tripping and breaking
@@ -3325,6 +3251,11 @@ MonoBehaviour:
   reviewsPanel: {fileID: 533354404}
   slideSpeed: 5
   customerManager: {fileID: 1431911314}
+  reviewImages:
+  - {fileID: 588900041}
+  - {fileID: 707542706}
+  - {fileID: 1051662903}
+  - {fileID: 1928975043}
 --- !u!4 &1031182689
 Transform:
   m_ObjectHideFlags: 0
@@ -3551,6 +3482,81 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1167035169}
+  m_CullTransparentMesh: 1
+--- !u!1 &1220723257
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1220723258}
+  - component: {fileID: 1220723260}
+  - component: {fileID: 1220723259}
+  m_Layer: 5
+  m_Name: sirenImage
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1220723258
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1220723257}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 20, y: 20, z: 20}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 410859513}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: -1102, y: -458}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1220723259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1220723257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1220723260
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1220723257}
   m_CullTransparentMesh: 1
 --- !u!1 &1229918633
 GameObject:
@@ -4126,7 +4132,8 @@ MonoBehaviour:
   - {fileID: 2014696169}
   - {fileID: 1730443366}
   - {fileID: 864406980}
-  - {fileID: 1730443366}
+  - {fileID: 1689714326}
+  customerServed: 0
 --- !u!1 &1511107209
 GameObject:
   m_ObjectHideFlags: 0
@@ -4417,7 +4424,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -145}
+  m_AnchoredPosition: {x: 0, y: -73}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1553306516
@@ -4450,7 +4457,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColor: {r: 0.7169812, g: 0.11047808, b: 0.11047808, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -4833,9 +4840,10 @@ MonoBehaviour:
   - text: Hey I'll have one taco with extra everything.
     options:
     - Kill customer
-    - Okay but please leave a good review.
+    - Kill customer
     responses:
-    - We'll see.
+    - OOOhhhmyyygoood hheeeelp
+    - oohmmyyyygggooood HEEELLP
   eatingMessage: 
 --- !u!95 &1689714327
 Animator:
@@ -6181,7 +6189,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -155}
+  m_AnchoredPosition: {x: 0, y: -83}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2146279209
@@ -6214,7 +6222,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColor: {r: 0.7169812, g: 0.11047808, b: 0.11047808, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

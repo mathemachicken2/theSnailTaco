@@ -75,7 +75,9 @@ public class TacoPickup : MonoBehaviour
     [SerializeField] Image sirenOverlay;
     [SerializeField] float sirenDuration = 4f;
 
-  
+    [SerializeField] private ReviewUIManager reviewUIManager;
+
+
 
 
     void Start()
@@ -306,8 +308,8 @@ public class TacoPickup : MonoBehaviour
         float timer = 0;
 
         sirenOverlay.gameObject.SetActive(true);
-        Color redSiren = new Color(1f, 0f, 0f, 0.2f);
-        Color blueSiren = new Color(0f, 0f, 1f, 0.2f);
+        Color redSiren = new Color(1f, 0f, 0f, 0.5f);
+        Color blueSiren = new Color(0f, 0f, 1f, 0.5f);
 
         while (timer < sirenDuration)
         {
@@ -445,6 +447,9 @@ public class TacoPickup : MonoBehaviour
 
         StartCoroutine(EatTacoSequence(taco));
 
+        
+        reviewUIManager.AddReview();
+
         Debug.Log("Served taco");
     }
 
@@ -495,6 +500,7 @@ public class TacoPickup : MonoBehaviour
         if (counter.manager.CurrentCustomer != null)
         {
             Destroy(counter.manager.CurrentCustomer.gameObject);
+            counter.manager.CustomerServed();
         }
         yield return StartCoroutine(FadeToBlackWhenEating(6f));
         yield return StartCoroutine(FadeFromBlack());
