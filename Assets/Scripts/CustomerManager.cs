@@ -6,6 +6,7 @@ public class CustomerManager : MonoBehaviour
     private int currentIndex = -1;
 
     public Customer CurrentCustomer { get; private set; }
+    public bool customerServed = false;
 
 
     void Start()
@@ -32,9 +33,8 @@ public class CustomerManager : MonoBehaviour
     {
         if (CurrentCustomer != null)
         {
-            CurrentCustomer.LeaveCounter();
+            customerServed = true;
             Debug.Log("Customer served");
-            SpawnNextCustomer();
         }
     }
 }
