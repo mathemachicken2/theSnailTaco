@@ -209,9 +209,6 @@ public class TacoPickup : MonoBehaviour
         Customer currentCustomer = counter.manager.CurrentCustomer;
 
        
-        
-
-        
 
         // Freeze player
         if (playerMovement != null)

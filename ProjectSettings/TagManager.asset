@@ -8,6 +8,7 @@ TagManager:
   - Taco
   - killable
   - Killable
+  - Blender
   layers:
   - Default
   - TransparentFX
