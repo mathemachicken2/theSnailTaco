@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.LowLevel;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class TacoPickup : MonoBehaviour
 {
@@ -77,6 +78,9 @@ public class TacoPickup : MonoBehaviour
 
     [SerializeField] private ReviewUIManager reviewUIManager;
 
+    [SerializeField] TMP_Text checkReviewsText;
+    [SerializeField] TMP_Text takeOrderText;
+    [SerializeField] TMP_Text cookText;
 
 
 
@@ -87,6 +91,13 @@ public class TacoPickup : MonoBehaviour
         customerPanel.SetActive(false);
         playerCamera = Camera.main;
 
+        // takeOrderText.gameObject.SetActive(true);
+        // cookText.gameObject.SetActive(false);
+        takeOrderText.color = new Color(1, 1, 1, 0);
+        cookText.color = new Color(1, 1, 1, 0);
+        checkReviewsText.color = new Color(1, 1, 1, 0);
+
+        ShowText(takeOrderText);
 
         originalLocalPosition = playerCamera.transform.localPosition;
         originalLocalRotation = playerCamera.transform.localRotation;
@@ -131,6 +142,30 @@ public class TacoPickup : MonoBehaviour
         }
         if (isInDialogue)
             return;
+
+        if (checkReviewsText != null && checkReviewsText.gameObject.activeSelf)
+        {
+            if (kb.tabKey.wasPressedThisFrame)
+            {
+
+                HideText(checkReviewsText);
+                ShowText(takeOrderText);
+            }
+        }
+        if (takeOrderText.gameObject.activeSelf)
+        {
+            PulseText(takeOrderText);
+        }
+
+        if (cookText.gameObject.activeSelf)
+        {
+            PulseText(cookText);
+        }
+
+        if (checkReviewsText.gameObject.activeSelf)
+        {
+            PulseText(checkReviewsText);
+        }
     }
 
     // =========================
@@ -156,6 +191,10 @@ public class TacoPickup : MonoBehaviour
 
         playerCamera.transform.localPosition = originalLocalPosition;
         playerCamera.transform.localRotation = originalLocalRotation;
+
+        takeOrderText.gameObject.SetActive(false);
+       // cookText.gameObject.SetActive(true);
+       ShowText(cookText);
     }
 
     IEnumerator FadeToBlackWHenFired(float duration)
@@ -226,6 +265,9 @@ public class TacoPickup : MonoBehaviour
       
 
         Debug.Log("Opened customer order UI");
+        //takeOrderText.gameObject.SetActive(false);
+        HideText(takeOrderText);
+
     }
 
     void KillPlayer()
@@ -267,6 +309,7 @@ public class TacoPickup : MonoBehaviour
                 {
                     StartCoroutine(KillCustomerSequence());
                     KillPlayer();
+                    
                     //DeathTextManager.Instance.ShowArrestedMessages();
                 }
 
@@ -277,7 +320,7 @@ public class TacoPickup : MonoBehaviour
 
 
             });
-
+            
         }
     }
 
@@ -298,6 +341,8 @@ public class TacoPickup : MonoBehaviour
 
         // Fade to black
         yield return StartCoroutine(FadeToBlackWHenFired(3f));
+        yield return new WaitForSeconds(5f);
+        SceneManager.LoadScene("MainMenu");
     }
 
     IEnumerator PoliceSirenEffect()
@@ -334,6 +379,9 @@ public class TacoPickup : MonoBehaviour
         Cursor.visible = false;
 
         isInDialogue = false;
+         //cookText.gameObject.SetActive(true);
+        ShowText(cookText);
+        Debug.Log("Showing cook text");
     }
     bool IsHoldingTaco()
     {
@@ -465,8 +513,38 @@ public class TacoPickup : MonoBehaviour
         }
     }
 
+    IEnumerator FadeText(TMP_Text text, float targetAlpha, float speed)
+    {
+        Color c = text.color;
 
 
+        while (!Mathf.Approximately(c.a, targetAlpha))
+        {
+            c.a = Mathf.MoveTowards(c.a, targetAlpha, Time.deltaTime * speed);
+            text.color = c;
+            yield return null;
+        }
+
+        if (targetAlpha == 0)
+            text.gameObject.SetActive(false);
+    }
+
+    void PulseText(TMP_Text text)
+    {
+        float pulse = Mathf.Sin(Time.time * 2f) * 0.1f + 0.9f;
+        text.transform.localScale = Vector3.one * pulse;
+    }
+    void ShowText(TMP_Text text)
+    {
+        text.gameObject.SetActive(true);
+        StartCoroutine(FadeText(text, 1f, 2f));
+        
+    }
+
+    void HideText(TMP_Text text)
+    {
+        StartCoroutine(FadeText(text, 0f, 2f));
+    }
     IEnumerator EatTacoSequence(GameObject taco)
     {
         // Move camera to plate
@@ -514,6 +592,7 @@ public class TacoPickup : MonoBehaviour
         playerCamera.transform.localPosition = originalLocalPosition;
         playerCamera.transform.localRotation = originalLocalRotation;
 
+        ShowText(checkReviewsText);
 
     }
 
@@ -536,6 +615,9 @@ public class TacoPickup : MonoBehaviour
                 {
                     currentGrill.FinishCooking();
                     StopCooking();
+                    //cookText.gameObject.SetActive(false);
+                    HideText(cookText);
+
                 }
             }
         }
@@ -672,6 +754,7 @@ public class TacoPickup : MonoBehaviour
         handModel.localRotation = handModelStartRotation * Quaternion.Euler(0, 180f, -60f);
 
         cookProgressBackground.SetActive(true);
+        
     }
 
     void StopCooking()
@@ -686,6 +769,7 @@ public class TacoPickup : MonoBehaviour
 
         cookProgressBar.fillAmount = 0f;
         cookProgressBackground.SetActive(false);
+       
     }
 
     // =========================
@@ -714,7 +798,7 @@ public class TacoPickup : MonoBehaviour
 
         if (currentGrill.GetIngredientCount() >= 3)
         {
-            PickupUIManager.Instance.Show("Cook (Mouse Click)");
+            PickupUIManager.Instance.Show("Cook (Hold L Mouse Click)");
         }
         else
         {

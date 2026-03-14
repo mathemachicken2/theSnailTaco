@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class BlenderInteraction : MonoBehaviour
 {
@@ -34,6 +35,12 @@ public class BlenderInteraction : MonoBehaviour
     [SerializeField] private GameObject blenderParticles;
     [SerializeField] private Image blenderOverlay;
 
+    private void Start()
+    {
+        if (interactionPrompt != null)
+            interactionPrompt.SetActive(false);
+    
+    }
 
 
     void Update()
@@ -47,7 +54,8 @@ public class BlenderInteraction : MonoBehaviour
         {
             sequenceTriggered = true;
             StartCoroutine(BlenderSequence());
-                
+            
+
 
         }
     }
@@ -56,15 +64,19 @@ public class BlenderInteraction : MonoBehaviour
     {
         if (other.CompareTag("Player"))
             playerInRange = true;
+        if (interactionPrompt != null)
+            interactionPrompt.SetActive(true);
     }
 
     void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
             playerInRange = false;
+        interactionPrompt.SetActive(false);
     }
     private IEnumerator BlenderSequence()
     {
+        interactionPrompt.SetActive(false);
         // Disable player movement
         if (playerMovement != null)
             playerMovement.enabled = false;
@@ -148,5 +160,7 @@ public class BlenderInteraction : MonoBehaviour
         // Optional: unlock mouse after sequence
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+        yield return new WaitForSeconds(4f);
+        SceneManager.LoadScene("MainMenu");
     }
 }
