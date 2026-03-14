@@ -81,7 +81,7 @@ public class DeathTextManager : MonoBehaviour
         firedText.text = "You're fired";
         firedText.gameObject.SetActive(true);
 
-        deathText.text = "You were put in the blender and died";
+        deathText.text = "You jumped into a blender........";
         deathText.gameObject.SetActive(true);
 
         yield return new WaitForSeconds(3f);
