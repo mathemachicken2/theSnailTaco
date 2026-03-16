@@ -39,7 +39,7 @@ public class DeathTextManager : MonoBehaviour
 
         yield return new WaitForSeconds(2f);
 
-        arrestedText.text = "You've been arrested and therefore can't keep your job";
+        arrestedText.text = "You're going to prison, so you can't keep your job...........";
         arrestedText.gameObject.SetActive(true);
 
         yield return new WaitForSeconds(3f);
