@@ -20,7 +20,13 @@ public class SimplePlayerController : MonoBehaviour
 
     private Vector2 moveInput;
 
- 
+   
+
+   
+
+    
+
+
 
     void Awake()
     {
@@ -38,6 +44,7 @@ public class SimplePlayerController : MonoBehaviour
         HandleMouseLook();
     }
 
+    
     void HandleMovement()
     {
         // --- Input ---
@@ -46,6 +53,7 @@ public class SimplePlayerController : MonoBehaviour
 
         if (kb != null)
         {
+            
             moveInput.y += kb.wKey.isPressed ? 1 : 0;
             moveInput.y -= kb.sKey.isPressed ? 1 : 0;
             moveInput.x -= kb.aKey.isPressed ? 1 : 0;
@@ -53,14 +61,18 @@ public class SimplePlayerController : MonoBehaviour
         }
 
         moveInput = moveInput.normalized;
+       
 
         // --- Horizontal Movement ---
         Vector3 move = transform.right * moveInput.x + transform.forward * moveInput.y;
         controller.Move(move * moveSpeed * Time.deltaTime);
+       
+
 
         // --- Gravity ---
         if (controller.isGrounded && velocity.y < 0)
             velocity.y = -2f;
+        
 
         // --- Jump ---
         if (controller.isGrounded && kb != null && kb.spaceKey.wasPressedThisFrame)
@@ -70,6 +82,7 @@ public class SimplePlayerController : MonoBehaviour
 
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
+        
     }
 
     void HandleMouseLook()

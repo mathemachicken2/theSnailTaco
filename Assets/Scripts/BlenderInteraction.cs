@@ -116,7 +116,8 @@ public class BlenderInteraction : MonoBehaviour
         handModel.transform.rotation = handSpawnPoint.rotation;
         if (blenderParticles != null)
             Instantiate(blenderParticles, handSpawnPoint.position, handSpawnPoint.rotation);
-       
+        SoundManager.Instance.PlayBlender();
+
         if (blenderOverlay != null)
         {
             Color c = blenderOverlay.color;

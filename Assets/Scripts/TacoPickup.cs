@@ -29,6 +29,7 @@ public class TacoPickup : MonoBehaviour
     private GrillStation currentGrill;
 
     private Quaternion handModelStartRotation;
+    private Transform handModelStartPosition;
 
     private float cookTimer;
     private const float cookDuration = 6f;
@@ -86,6 +87,7 @@ public class TacoPickup : MonoBehaviour
 
     void Start()
     {
+       
         handModelStartRotation = handModel.localRotation;
         cookProgressBackground.SetActive(false);
         customerPanel.SetActive(false);
@@ -101,6 +103,10 @@ public class TacoPickup : MonoBehaviour
 
         originalLocalPosition = playerCamera.transform.localPosition;
         originalLocalRotation = playerCamera.transform.localRotation;
+       
+        
+            SoundManager.Instance.PlayIdleSound(0.05f);
+        
     }
 
     void Update()
@@ -239,6 +245,7 @@ public class TacoPickup : MonoBehaviour
 
     void OpenCustomerPanel()
     {
+        SoundManager.Instance.PlayDialogue();
         dialogueCameraTarget = customerZoomPoint;
         isZooming = true;
 
@@ -274,7 +281,8 @@ public class TacoPickup : MonoBehaviour
     {
         // Spawn blood at player's position
         Instantiate(bloodPrefab, transform.position + Vector3.up * 1f, Quaternion.identity);
-        
+        SoundManager.Instance.PlayDeath();
+
     }
     void ShowDialogue(Customer customer)
     {
@@ -476,6 +484,7 @@ public class TacoPickup : MonoBehaviour
 
     void ServeTaco()
     {
+        SoundManager.Instance.PlayServe();
         if (heldObject == null || currentPlate == null)
             return;
 
@@ -578,6 +587,7 @@ public class TacoPickup : MonoBehaviour
             counter.manager.CustomerServed();
         }
         yield return StartCoroutine(FadeToBlackWhenEating(6f));
+        SoundManager.Instance.PlayNickReview();
         yield return StartCoroutine(FadeFromBlack());
         if (playerMovement != null)
             playerMovement.enabled = true;
@@ -679,6 +689,7 @@ public class TacoPickup : MonoBehaviour
 
     void PickupItem()
     {
+        SoundManager.Instance.PlayPickup();
         GameObject prefab = GetPrefabFromName(currentItem.itemName);
         if (prefab == null) return;
 
@@ -699,6 +710,7 @@ public class TacoPickup : MonoBehaviour
 
     void PlaceOnGrill()
     {
+        SoundManager.Instance.PlayPlace();
         if (heldObject == null || currentGrill == null)
             return;
 
@@ -718,6 +730,7 @@ public class TacoPickup : MonoBehaviour
 
     void PickupCookedTaco()
     {
+        SoundManager.Instance.PlayPickup();
         GameObject taco = currentGrill.GetCookedTaco();
         if (taco == null) return;
 
@@ -751,8 +764,10 @@ public class TacoPickup : MonoBehaviour
         animator.SetBool("Idle", false);
         animator.SetBool("PickUp", false);
 
-        handModel.localRotation = handModelStartRotation * Quaternion.Euler(0, 180f, -60f);
-
+        handModel.localRotation = handModelStartRotation * Quaternion.Euler(29.263f, 1406.177f, 83.647f);
+         
+       
+        SoundManager.Instance.PlayCook();
         cookProgressBackground.SetActive(true);
         
     }
@@ -766,6 +781,7 @@ public class TacoPickup : MonoBehaviour
         animator.SetBool("Idle", true);
 
         handModel.localRotation = handModelStartRotation;
+        
 
         cookProgressBar.fillAmount = 0f;
         cookProgressBackground.SetActive(false);
