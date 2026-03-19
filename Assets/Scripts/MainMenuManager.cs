@@ -8,11 +8,18 @@ public class MainMenuManager : MonoBehaviour
 
     void Start()
     {
-        SoundManager.Instance.PlayMainMenu();
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlayMainMenu();
+        }
+        else
+        {
+            Debug.LogWarning("SoundManager Instance is NULL");
+        }
     }
     public void PlayGame()
     {
-        SoundManager.Instance.ResetDialogue();
+        //SoundManager.Instance.ResetDialogue();
         SceneManager.LoadScene("SampleScene");
     }
 
